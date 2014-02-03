@@ -1,0 +1,31 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Pinboard: JSONP-JQuery Example</title>
+<script type="text/javascript" src="http://jqueryjs.googlecode.com/files/jquery-1.3.2.min.js"></script>
+</head>
+<body>
+<p> This page takes the JSON feed from <a href="http://pinboard.in/u:bohyunkim/">my public links in Pinboard</a> and re-presents them here. See <a href="http://feeds.pinboard.in/json/u:bohyunkim/">the Pinboard's JSON feed of my links</a>.</p>
+<div id="pinboard"><h1>All my links in Pinboard</h1></div>
+<script>
+$(document).ready(function(){	
+	console.log("ready"); //just to check in the firebug console.
+	
+$.ajax({
+  url:'http://feeds.pinboard.in/json/u:bohyunkim',
+  jsonp:"cb",
+  dataType:'jsonp',
+  success: function(data) {
+  	console.log(data); //dumps the data to the console to check if the callback is made successfully
+    $.each(data, function(index, item){
+      $('#pinboard').append('<div><a href="' + item.u + '">' + item.d
++ '</a></div>');
+      }); //each
+    } //success
+  }); //ajax
+	
+});//ready
+</script>
+</body>
+</html>

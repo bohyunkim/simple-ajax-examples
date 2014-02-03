@@ -1,0 +1,29 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Reddit-Science: JSONP-AJAX Example</title>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>
+</head>
+
+<body>
+<p> This page takes the JSONP feed from <a href="http://www.reddit.com/r/science/">Reddit's Science section</a> and presents the link to the original article and the comments in Reddit to the article as a pair. See <a href="http://www.reddit.com/r/science/.json?jsonp=?">JSONP feed</a> from Reddit.</p>
+
+<div id="feed"> </div>
+<script type="text/javascript">
+	//run function to parse json response, grab title, link, and media values - place in html tags
+$(document).ready(function(){		
+	$.getJSON('http://www.reddit.com/r/science/.json?jsonp=?', function(rd){
+		//console.log(rd);
+		//console.log(rd.data.children[0].data.title);
+		$('#feed').html('<h1>*Subredditum Scientiae*</h1>');
+		$.each(rd.data.children, function(k, v){
+      		$('#feed').append('<div><p>'+(k+1)+': <a href="' + v.data.url + '">' + v.data.title+'</a></p><ul><li style="font-variant:small-caps;font-size:small"><a href="http://www.reddit.com'+v.data.permalink+'">Comments from Reddit</a></li></ul></div>');
+      }); //each
+	}); //getJSON
+});//ready	
+</script>
+
+</body>
+</html>
+

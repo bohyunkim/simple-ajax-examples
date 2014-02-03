@@ -1,0 +1,27 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>PubMed and Yahoo Pipes: JSONP-AJAX Example</title>
+<script type="text/javascript" src="http://jqueryjs.googlecode.com/files/jquery-1.3.2.min.js"></script>
+</head>
+<body>
+<p> This page takes the JSONP feed from <a href="http://pipes.yahoo.com/pipes/pipe.info?_id=e176c4da7ae8574bfa5c452f9bb0da92"> a Yahoo Pipe</a>, which creates JSONP feed out of a PubMed search results and re-presents them here. 
+<br/>See <a href="http://pipes.yahoo.com/pipes/pipe.run?_id=e176c4da7ae8574bfa5c452f9bb0da92&_render=json&limit=10&term=%22Florida+International+University%22+and+%22College+of+Medicine%22&_callback=myCallback">the Yahoo Pipe's JSON feed</a> and <a href="http://www.ncbi.nlm.nih.gov/pubmed?term=%22Florida%20International%20University%22%20and%20%22College%20of%20Medicine%22">the original search results in PubMed</a>.</p>
+<div id="feed"></div>
+<script type="text/javascript">
+	//run function to parse json response, grab title, link, and media values - place in html tags
+	function myCallback(data) {
+		//console.log(data);
+		//console.log(data.count);
+		$("#feed").html('<h1>The most recent 5 publications from <br/>Florida International University College of Medicine</h1><h2>Results from PubMed</h2>');
+		$.each(data.value.items, function(index, item){
+      		$('#feed').append('<p>'+(index+1)+': <a href="' + item.link + '">' + item.title
++ '</a></p>');
+        if (index == 4) return false; //display the most recent five items
+      }); //each
+	} //function
+	</script>
+<script type="text/javascript" src="http://pipes.yahoo.com/pipes/pipe.run?_id=e176c4da7ae8574bfa5c452f9bb0da92&_render=json&limit=10&term=%22Florida+International+University%22+and+%22College+of+Medicine%22&_callback=myCallback"></script>
+</body>
+</html>
